@@ -1,0 +1,7 @@
+build/
+HostsMaster.xcodeproj/
+.DS_Store
+xcuserdata/
+.build/
+tasks/
+dist/

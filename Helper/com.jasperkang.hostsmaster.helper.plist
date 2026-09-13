@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.jasperkang.hostsmaster.helper</string>
+	<key>BundleProgram</key>
+	<string>Contents/MacOS/HostsMasterHelper</string>
+	<key>MachServices</key>
+	<dict>
+		<key>com.jasperkang.hostsmaster.helper</key>
+		<true/>
+	</dict>
+	<key>AssociatedBundleIdentifiers</key>
+	<array>
+		<string>com.jasperkang.hostsmaster</string>
+	</array>
+	<key>ProcessType</key>
+	<string>Interactive</string>
+</dict>
+</plist>

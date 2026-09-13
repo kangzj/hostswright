@@ -1,0 +1,71 @@
+name: HostsMaster
+options:
+  bundleIdPrefix: com.jasperkang
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ENABLE_HARDENED_RUNTIME: YES
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEAD_CODE_STRIPPING: YES
+packages:
+  HostsMasterKit:
+    path: Packages/HostsMasterKit
+targets:
+  HostsMasterHelper:
+    type: tool
+    platform: macOS
+    sources:
+      - Helper
+      - Shared
+    dependencies:
+      - package: HostsMasterKit
+        product: HostsCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostsmaster.helper
+        INFOPLIST_FILE: Helper/Info.plist
+        CREATE_INFOPLIST_SECTION_IN_BINARY: YES
+  HostsMaster:
+    type: application
+    platform: macOS
+    sources:
+      - App
+      - Shared
+    dependencies:
+      - package: HostsMasterKit
+        product: HostsCore
+      - target: HostsMasterHelper
+        embed: true
+        codeSign: true
+        copy:
+          destination: executables
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostsmaster
+        INFOPLIST_FILE: App/Info.plist
+        CODE_SIGN_ENTITLEMENTS: App/HostsMaster.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+    postBuildScripts:
+      - name: Embed launchd plist
+        script: |
+          mkdir -p "$CODESIGNING_FOLDER_PATH/Contents/Library/LaunchDaemons"
+          cp "$SRCROOT/Helper/com.jasperkang.hostsmaster.helper.plist" "$CODESIGNING_FOLDER_PATH/Contents/Library/LaunchDaemons/"
+        outputFiles:
+          - $(CODESIGNING_FOLDER_PATH)/Contents/Library/LaunchDaemons/com.jasperkang.hostsmaster.helper.plist
+schemes:
+  HostsMaster:
+    build:
+      targets:
+        HostsMaster: all
+    run:
+      config: Debug
