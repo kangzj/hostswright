@@ -52,6 +52,30 @@ If another tool or a manual edit changes its section, the window and the menu sh
 If you are coming from SwitchHosts or a hand-maintained file, the System view shows the custom lines it found and offers to import them.
 Each blank-line-separated block becomes a group, named after the shared domain or the comment above it, and the adopted lines are removed from the system section so nothing is applied twice.
 
+## Migrating from SwitchHosts
+
+Both tools write the same file, so quit SwitchHosts first and turn off its Launch at login so the two never race.
+
+**Groups that are switched on.**
+SwitchHosts writes only its active groups to `/etc/hosts`.
+Open HostsMaster, click Import on the empty state or in the System view, and each block becomes a group.
+The adopted lines are removed from the system section of the file in the same step, so nothing is applied twice.
+
+**Every group, including switched-off ones.**
+SwitchHosts keeps its full list in `~/.SwitchHosts`.
+With HostsMaster quit, run:
+
+```sh
+scripts/import-switchhosts.py
+```
+
+It copies each local SwitchHosts group into HostsMaster with the same title, order, contents, and on/off state, and leaves groups you already have alone.
+Launch HostsMaster again and the active groups are applied.
+Remote (URL) groups and folders are not migrated; paste those in by hand.
+
+Once you are happy, delete SwitchHosts.
+Its data folder can stay as a backup.
+
 ## How it works
 
 ```
