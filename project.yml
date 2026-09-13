@@ -28,6 +28,8 @@ targets:
     dependencies:
       - package: HostswrightKit
         product: HostsCore
+      - package: HostswrightKit
+        product: DNSCore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostswright.helper
@@ -42,6 +44,8 @@ targets:
     dependencies:
       - package: HostswrightKit
         product: HostsCore
+      - package: HostswrightKit
+        product: DNSCore
       - target: HostswrightHelper
         embed: true
         codeSign: true

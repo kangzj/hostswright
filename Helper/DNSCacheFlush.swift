@@ -1,6 +1,6 @@
 import Foundation
 
-enum DNSCache {
+enum DNSCacheFlush {
     struct FlushError: LocalizedError {
         let errorDescription: String?
     }

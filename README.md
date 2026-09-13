@@ -52,6 +52,14 @@ If another tool or a manual edit changes its section, the window and the menu sh
 If you are coming from SwitchHosts or a hand-maintained file, the System view shows the custom lines it found and offers to import them.
 Each blank-line-separated block becomes a group, named after the shared domain or the comment above it, and the adopted lines are removed from the system section so nothing is applied twice.
 
+### Local DNS mode
+One switch, in the menu bar or on the Local DNS page, makes Hostswright this Mac's resolver.
+It answers every name in `/etc/hosts` itself, caches the answers to everything else within the lifetime bounds you choose, and forwards the rest to the DNS servers your network hands out or to a custom list.
+Apps that resolve outside the hosts file, Safari included, then see the same overrides.
+Forwarding rules send a domain and its subdomains to specific servers, handy for a VPN's internal DNS, and a live query log shows whether each lookup came from hosts, the cache, or upstream.
+The mode keeps running after you quit the app and after a reboot, and turning it off puts the previous DNS settings back.
+iCloud Private Relay resolves Safari traffic through Apple's relay, so overrides do not reach Safari while Private Relay is on.
+
 ## Migrating from SwitchHosts
 
 Both tools write the same file, so quit SwitchHosts first and turn off its Launch at login so the two never race.
@@ -89,6 +97,9 @@ Hostswright.app (menu bar, SwiftUI)  ──XPC──▶  HostswrightHelper (root
   It accepts connections only from Hostswright signed by the same team.
 - Every write re-reads the live file, replaces only the region between the Hostswright markers, writes a temporary file with the original permissions, and renames it into place.
 - After each write it runs `dscacheutil -flushcache` and sends `SIGHUP` to `mDNSResponder`.
+- In Local DNS mode the helper listens on 127.0.0.1:53 over UDP and TCP, sets that address as the DNS server on every active network service, and saves the previous configuration so it can be restored.
+  The network's own servers stay visible in the system's dynamic store, so automatic upstream follows them when you change networks.
+  Hosts answers carry a 5 second lifetime, upstream answers are cached between the configured bounds, and the cache clears whenever the hosts file changes.
 
 What the managed section looks like inside `/etc/hosts`:
 
@@ -156,7 +167,8 @@ swift test --package-path Packages/HostswrightKit
 ## Uninstall
 
 Open Settings › Helper and click Remove, then quit the app and delete it.
-Removing the helper leaves `/etc/hosts` as it is; turn all groups off first if you want the section gone.
+Removing the helper turns Local DNS mode off first and leaves `/etc/hosts` as it is; turn all groups off first if you want the section gone.
+Turn Local DNS off before deleting the app by hand, otherwise the Mac keeps pointing at a resolver that is no longer running.
 
 ## License
 

@@ -2,19 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Label</key>
-	<string>com.jasperkang.hostswright.helper</string>
+	<key>AssociatedBundleIdentifiers</key>
+	<array>
+		<string>com.jasperkang.hostswright</string>
+	</array>
 	<key>BundleProgram</key>
 	<string>Contents/MacOS/HostswrightHelper</string>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>com.jasperkang.hostswright.helper</string>
 	<key>MachServices</key>
 	<dict>
 		<key>com.jasperkang.hostswright.helper</key>
 		<true/>
 	</dict>
-	<key>AssociatedBundleIdentifiers</key>
-	<array>
-		<string>com.jasperkang.hostswright</string>
-	</array>
 	<key>ProcessType</key>
 	<string>Interactive</string>
 </dict>

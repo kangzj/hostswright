@@ -35,6 +35,8 @@ struct MainWindow: View {
             GroupEditor(id: id)
         case .system:
             SystemHostsView(selection: $selection)
+        case .localDNS:
+            LocalDNSView()
         case nil:
             EmptyStateView(selection: $selection)
         }

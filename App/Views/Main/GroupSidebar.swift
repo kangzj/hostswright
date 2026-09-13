@@ -22,6 +22,8 @@ struct GroupSidebar: View {
             Section {
                 Label("System", systemImage: "lock")
                     .tag(SidebarSelection.system)
+                LocalDNSSidebarRow()
+                    .tag(SidebarSelection.localDNS)
             }
         }
         .listStyle(.sidebar)

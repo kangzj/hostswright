@@ -1,3 +1,4 @@
+import DNSCore
 import Foundation
 import Observation
 import ServiceManagement
@@ -76,6 +77,20 @@ final class HelperClient {
 
     func flushDNSCache() async throws {
         try await callExpectingNoError { proxy, reply in proxy.flushDNSCache(reply: reply) }
+    }
+
+    func applyDNSSettings(_ settings: DNSSettings) async throws {
+        let json = String(decoding: try JSONEncoder().encode(settings), as: UTF8.self)
+        try await callExpectingNoError { proxy, reply in proxy.applyDNSSettings(json, reply: reply) }
+    }
+
+    func dnsStatus() async throws -> DNSStatus {
+        let json: String = try await call { proxy, reply in proxy.dnsStatus(reply: reply) }
+        return try JSONDecoder().decode(DNSStatus.self, from: Data(json.utf8))
+    }
+
+    func clearResolverCache() async throws {
+        try await callExpectingNoError { proxy, reply in proxy.clearResolverCache(reply: reply) }
     }
 
     func version() async throws -> Int {

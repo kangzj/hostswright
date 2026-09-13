@@ -20,6 +20,7 @@ final class AppModel {
     let helper = HelperClient()
     let hostsFile = HostsFileMonitor()
     let sync: HostsSync
+    let dns: LocalDNSController
     let isFirstLaunch: Bool
     private(set) var helperInstallError: String?
     private(set) var lastActionError: String?
@@ -34,6 +35,7 @@ final class AppModel {
         let loaded = store.load()
         configuration = loaded
         sync = HostsSync(helper: helper, monitor: hostsFile, desired: loaded.managedSection)
+        dns = LocalDNSController(helper: helper, store: DNSSettingsStore(directory: ConfigurationStore.defaultDirectory))
         if helper.isEnabled {
             sync.applyIfOutOfSync()
         } else if helper.status == .requiresApproval {
@@ -114,6 +116,7 @@ final class AppModel {
         if helper.isEnabled, !wasEnabled {
             approvalTask?.cancel()
             sync.applyIfOutOfSync()
+            dns.helperBecameAvailable()
         }
     }
 
@@ -130,6 +133,7 @@ final class AppModel {
     }
 
     func removeHelper() async {
+        await dns.helperWillBeRemoved()
         do {
             try await helper.unregister()
             helperInstallError = nil

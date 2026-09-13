@@ -12,6 +12,8 @@ struct MenuBarMenu: View {
             Button("Set Up Hostswright…") { openMainWindow() }
         }
         Divider()
+        Toggle("Local DNS", isOn: Binding(get: { model.dns.isEnabled }, set: { model.dns.setEnabled($0) }))
+            .disabled(!model.helper.isEnabled)
         Button("Flush DNS Cache") { Task { await model.flushDNSCache() } }
             .disabled(!model.helper.isEnabled)
         Button("Open Hostswright…") { openMainWindow() }
