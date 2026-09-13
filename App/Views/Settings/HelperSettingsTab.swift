@@ -37,7 +37,7 @@ struct HelperSettingsTab: View {
                         Button("Refresh") { model.refreshHelperStatus() }
                     }
                 }
-                Text("HostsMaster installs a small root helper that is the only component allowed to write /etc/hosts. It only ever rewrites the section between HostsMaster's own markers and flushes the DNS cache afterwards.")
+                Text("Hostswright installs a small root helper that is the only component allowed to write /etc/hosts. It only ever rewrites the section between Hostswright's own markers and flushes the DNS cache afterwards.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

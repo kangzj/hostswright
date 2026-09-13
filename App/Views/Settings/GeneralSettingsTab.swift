@@ -14,7 +14,7 @@ struct GeneralSettingsTab: View {
                 if let launchAtLoginError {
                     Text(launchAtLoginError).font(.caption).foregroundStyle(.red)
                 }
-                Text("HostsMaster lives in the menu bar and only shows a Dock icon while a window is open.")
+                Text("Hostswright lives in the menu bar and only shows a Dock icon while a window is open.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

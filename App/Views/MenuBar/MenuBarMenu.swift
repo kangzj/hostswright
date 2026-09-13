@@ -9,16 +9,16 @@ struct MenuBarMenu: View {
         if model.helper.isEnabled {
             groupToggles
         } else {
-            Button("Set Up HostsMaster…") { openMainWindow() }
+            Button("Set Up Hostswright…") { openMainWindow() }
         }
         Divider()
         Button("Flush DNS Cache") { Task { await model.flushDNSCache() } }
             .disabled(!model.helper.isEnabled)
-        Button("Open HostsMaster…") { openMainWindow() }
+        Button("Open Hostswright…") { openMainWindow() }
         Button("Settings…") { DockPresence.present { openSettings() } }
             .keyboardShortcut(",")
         Divider()
-        Button("Quit HostsMaster") { NSApp.terminate(nil) }
+        Button("Quit Hostswright") { NSApp.terminate(nil) }
             .keyboardShortcut("q")
     }
 

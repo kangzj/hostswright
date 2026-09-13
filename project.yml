@@ -1,4 +1,4 @@
-name: HostsMaster
+name: Hostswright
 options:
   bundleIdPrefix: com.jasperkang
   deploymentTarget:
@@ -16,42 +16,42 @@ settings:
     CURRENT_PROJECT_VERSION: "1"
     DEAD_CODE_STRIPPING: YES
 packages:
-  HostsMasterKit:
-    path: Packages/HostsMasterKit
+  HostswrightKit:
+    path: Packages/HostswrightKit
 targets:
-  HostsMasterHelper:
+  HostswrightHelper:
     type: tool
     platform: macOS
     sources:
       - Helper
       - Shared
     dependencies:
-      - package: HostsMasterKit
+      - package: HostswrightKit
         product: HostsCore
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostsmaster.helper
+        PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostswright.helper
         INFOPLIST_FILE: Helper/Info.plist
         CREATE_INFOPLIST_SECTION_IN_BINARY: YES
-  HostsMaster:
+  Hostswright:
     type: application
     platform: macOS
     sources:
       - App
       - Shared
     dependencies:
-      - package: HostsMasterKit
+      - package: HostswrightKit
         product: HostsCore
-      - target: HostsMasterHelper
+      - target: HostswrightHelper
         embed: true
         codeSign: true
         copy:
           destination: executables
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostsmaster
+        PRODUCT_BUNDLE_IDENTIFIER: com.jasperkang.hostswright
         INFOPLIST_FILE: App/Info.plist
-        CODE_SIGN_ENTITLEMENTS: App/HostsMaster.entitlements
+        CODE_SIGN_ENTITLEMENTS: App/Hostswright.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_PREVIEWS: YES
@@ -59,13 +59,13 @@ targets:
       - name: Embed launchd plist
         script: |
           mkdir -p "$CODESIGNING_FOLDER_PATH/Contents/Library/LaunchDaemons"
-          cp "$SRCROOT/Helper/com.jasperkang.hostsmaster.helper.plist" "$CODESIGNING_FOLDER_PATH/Contents/Library/LaunchDaemons/"
+          cp "$SRCROOT/Helper/com.jasperkang.hostswright.helper.plist" "$CODESIGNING_FOLDER_PATH/Contents/Library/LaunchDaemons/"
         outputFiles:
-          - $(CODESIGNING_FOLDER_PATH)/Contents/Library/LaunchDaemons/com.jasperkang.hostsmaster.helper.plist
+          - $(CODESIGNING_FOLDER_PATH)/Contents/Library/LaunchDaemons/com.jasperkang.hostswright.helper.plist
 schemes:
-  HostsMaster:
+  Hostswright:
     build:
       targets:
-        HostsMaster: all
+        Hostswright: all
     run:
       config: Debug

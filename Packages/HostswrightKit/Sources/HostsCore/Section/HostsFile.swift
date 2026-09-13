@@ -1,6 +1,6 @@
 import Foundation
 
-/// A hosts file split around HostsMaster's managed section so that section can be replaced without touching anything else.
+/// A hosts file split around Hostswright's managed section so that section can be replaced without touching anything else.
 public struct HostsFile: Equatable, Sendable {
     public static let path = "/etc/hosts"
 

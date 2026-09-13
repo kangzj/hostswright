@@ -2,11 +2,11 @@ import AppKit
 import SwiftUI
 
 @main
-struct HostsMasterApp: App {
+struct HostswrightApp: App {
     @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
 
     var body: some Scene {
-        Window("HostsMaster", id: MainWindow.id) {
+        Window("Hostswright", id: MainWindow.id) {
             MainWindow()
                 .environment(appDelegate.model)
         }

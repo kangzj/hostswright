@@ -6,7 +6,7 @@ struct AboutSettingsTab: View {
             Image(nsImage: NSApp.applicationIconImage)
                 .resizable()
                 .frame(width: 96, height: 96)
-            Text("HostsMaster")
+            Text("Hostswright")
                 .font(.title2.weight(.semibold))
             Text("Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "")")
                 .foregroundStyle(.secondary)

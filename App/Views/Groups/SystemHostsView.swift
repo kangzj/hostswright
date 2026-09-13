@@ -10,7 +10,7 @@ struct SystemHostsView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("System")
                         .font(.title2.weight(.semibold))
-                    Text("Everything in /etc/hosts outside HostsMaster's section. These lines are never changed.")
+                    Text("Everything in /etc/hosts outside Hostswright's section. These lines are never changed.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
@@ -52,6 +52,6 @@ struct ImportButton: View {
         .disabled(!model.helper.isEnabled)
         .help(model.helper.isEnabled
             ? "Move the custom lines found in /etc/hosts into groups you can switch on and off."
-            : "Finish setting up HostsMaster to import.")
+            : "Finish setting up Hostswright to import.")
     }
 }

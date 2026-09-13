@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "HostsMasterKit",
+    name: "HostswrightKit",
     platforms: [.macOS(.v15)],
     products: [
         .library(name: "HostsCore", targets: ["HostsCore"]),

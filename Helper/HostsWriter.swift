@@ -21,7 +21,7 @@ final class HostsWriter: Sendable {
     }
 
     private func replaceFile(with contents: String) throws {
-        let temporaryPath = path + ".hostsmaster.tmp"
+        let temporaryPath = path + ".hostswright.tmp"
         guard FileManager.default.createFile(
             atPath: temporaryPath,
             contents: Data(contents.utf8),

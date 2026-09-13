@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.jasperkang.hostsmaster.helper</string>
+	<string>com.jasperkang.hostswright.helper</string>
 	<key>BundleProgram</key>
-	<string>Contents/MacOS/HostsMasterHelper</string>
+	<string>Contents/MacOS/HostswrightHelper</string>
 	<key>MachServices</key>
 	<dict>
-		<key>com.jasperkang.hostsmaster.helper</key>
+		<key>com.jasperkang.hostswright.helper</key>
 		<true/>
 	</dict>
 	<key>AssociatedBundleIdentifiers</key>
 	<array>
-		<string>com.jasperkang.hostsmaster</string>
+		<string>com.jasperkang.hostswright</string>
 	</array>
 	<key>ProcessType</key>
 	<string>Interactive</string>

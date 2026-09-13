@@ -1,7 +1,7 @@
 # HostsMaster — Design Spec
 
 Date: 2026-09-14
-Status: Implemented from this design; see §12 for notes recorded during the build.
+Status: Implemented from this design; see §12 for notes recorded during the build. Renamed to Hostswright afterwards.
 
 ## 1. Goal
 
@@ -196,3 +196,5 @@ HostsMaster/
 - The System Events accessibility tree does not list windows of an accessory-policy app, but the windows exist and render; window-server queries were used to verify them.
 - Verified on this Mac: setup, approval, toggle on and off from the menu bar with the resolver reflecting each change within a second, re-apply, window and Settings reopening from the menu bar.
   Not exercised on a real file: the Import flow, because SwitchHosts still owns those lines here; it is covered by unit tests.
+- The project was renamed from HostsMaster to Hostswright on 2026-09-14; identifiers in this document keep the original name.
+  The rename changed the bundle identifiers, the managed-section markers, and the Application Support folder, so it needs a fresh helper approval and a copied configuration file.

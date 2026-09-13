@@ -21,7 +21,7 @@ final class HelperClient {
 
         var errorDescription: String? {
             switch self {
-            case .helperNotEnabled: "HostsMaster is not set up yet."
+            case .helperNotEnabled: "Hostswright is not set up yet."
             case .timedOut: "The helper did not respond."
             case .remote(let message), .transport(let message): message
             }
@@ -83,7 +83,7 @@ final class HelperClient {
     }
 
     private func callExpectingNoError(
-        _ invoke: (HostsMasterHelperProtocol, @escaping @Sendable (String?) -> Void) -> Void
+        _ invoke: (HostswrightHelperProtocol, @escaping @Sendable (String?) -> Void) -> Void
     ) async throws {
         if let message: String = try await call(invoke) {
             throw ClientError.remote(message)
@@ -91,7 +91,7 @@ final class HelperClient {
     }
 
     private func call<Reply: Sendable>(
-        _ invoke: (HostsMasterHelperProtocol, @escaping @Sendable (Reply) -> Void) -> Void
+        _ invoke: (HostswrightHelperProtocol, @escaping @Sendable (Reply) -> Void) -> Void
     ) async throws -> Reply {
         guard isEnabled else { throw ClientError.helperNotEnabled }
         let connection = activeConnection()
@@ -99,7 +99,7 @@ final class HelperClient {
             let reply = PendingReply(continuation)
             let proxy = connection.remoteObjectProxyWithErrorHandler { @Sendable error in
                 reply.settle(.failure(ClientError.transport(error.localizedDescription)))
-            } as! HostsMasterHelperProtocol
+            } as! HostswrightHelperProtocol
             invoke(proxy) { value in reply.settle(.success(value)) }
             reply.startTimeout(Self.callTimeout)
         }
@@ -108,7 +108,7 @@ final class HelperClient {
     private func activeConnection() -> NSXPCConnection {
         if let connection { return connection }
         let connection = NSXPCConnection(machServiceName: helperMachServiceName, options: .privileged)
-        connection.remoteObjectInterface = NSXPCInterface(with: HostsMasterHelperProtocol.self)
+        connection.remoteObjectInterface = NSXPCInterface(with: HostswrightHelperProtocol.self)
         connection.invalidationHandler = { [weak self] in
             Task { @MainActor in self?.connection = nil }
         }

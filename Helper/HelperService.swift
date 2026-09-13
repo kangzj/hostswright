@@ -1,7 +1,7 @@
 import Foundation
 import HostsCore
 
-final class HelperService: NSObject, HostsMasterHelperProtocol {
+final class HelperService: NSObject, HostswrightHelperProtocol {
     private let writer: HostsWriter
 
     init(writer: HostsWriter) {

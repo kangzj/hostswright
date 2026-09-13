@@ -5,6 +5,6 @@ struct MenuBarLabel: View {
 
     var body: some View {
         Image(systemName: model.hasActiveGroups ? "point.3.filled.connected.trianglepath.dotted" : "point.3.connected.trianglepath.dotted")
-            .accessibilityLabel("HostsMaster")
+            .accessibilityLabel("Hostswright")
     }
 }

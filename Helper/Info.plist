@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.jasperkang.hostsmaster.helper</string>
+	<string>com.jasperkang.hostswright.helper</string>
 	<key>CFBundleName</key>
-	<string>HostsMasterHelper</string>
+	<string>HostswrightHelper</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CFBundleShortVersionString</key>

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Copy every SwitchHosts group, including switched-off ones, into HostsMaster's configuration.
+"""Copy every SwitchHosts group, including switched-off ones, into Hostswright's configuration.
 
-Usage: quit HostsMaster, run `scripts/import-switchhosts.py`, then launch HostsMaster again.
-Existing HostsMaster groups are kept; a SwitchHosts group with the same name is skipped.
+Usage: quit Hostswright, run `scripts/import-switchhosts.py`, then launch Hostswright again.
+Existing Hostswright groups are kept; a SwitchHosts group with the same name is skipped.
 """
 import json
 import os
@@ -10,7 +10,7 @@ import sys
 import uuid
 
 SWITCHHOSTS = os.path.expanduser("~/.SwitchHosts")
-CONFIG = os.path.expanduser("~/Library/Application Support/HostsMaster/configuration.json")
+CONFIG = os.path.expanduser("~/Library/Application Support/Hostswright/configuration.json")
 
 
 def switchhosts_groups():

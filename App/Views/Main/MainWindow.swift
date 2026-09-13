@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MainWindow: View {
-    static let id = "hostsmaster.main"
+    static let id = "hostswright.main"
 
     @Environment(AppModel.self) private var model
     @State private var selection: SidebarSelection?

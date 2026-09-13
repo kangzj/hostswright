@@ -1,8 +1,8 @@
 import Foundation
 
 public enum ManagedSection {
-    public static let startMarker = "# ==== HostsMaster: managed section, edits here are overwritten ===="
-    public static let endMarker = "# ==== HostsMaster: end of managed section ===="
+    public static let startMarker = "# ==== Hostswright: managed section, edits here are overwritten ===="
+    public static let endMarker = "# ==== Hostswright: end of managed section ===="
     static let groupHeaderPrefix = "# Group: "
 
     public static func render(_ groups: [HostsGroup]) -> String? {

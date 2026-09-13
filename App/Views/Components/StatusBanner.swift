@@ -28,7 +28,7 @@ struct StatusBanner: View {
                 Button("Try Again") { model.sync.reapply() }
             }
         } else if model.sync.state == .outOfSync {
-            banner(symbol: "exclamationmark.triangle.fill", tint: .orange, text: "The hosts file was changed outside HostsMaster and no longer matches your groups.") {
+            banner(symbol: "exclamationmark.triangle.fill", tint: .orange, text: "The hosts file was changed outside Hostswright and no longer matches your groups.") {
                 Button("Re-apply") { model.sync.reapply() }
             }
         }
