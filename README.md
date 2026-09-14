@@ -149,9 +149,12 @@ Tested on macOS 26 with Apple Silicon; Intel Macs should work but are untested.
 
 ## Install
 
-Download the DMG from Releases, drag Hostswright to Applications, and open it.
+Download the DMG from [Releases](https://github.com/kangzj/hostswright/releases/latest), drag Hostswright to Applications, and open it.
 The first launch asks you to click Set Up and then turn on Hostswright in System Settings › General › Login Items & Extensions.
 That is the only time macOS will ask.
+
+Release builds are signed with an Apple Development certificate rather than a notarized Developer ID, so macOS blocks the first launch on another Mac.
+Right-click the app, choose Open, and confirm; or go to System Settings › Privacy & Security and click Open Anyway.
 
 ## Build from source
 
