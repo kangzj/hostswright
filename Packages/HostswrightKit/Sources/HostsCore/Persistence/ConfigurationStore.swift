@@ -1,8 +1,12 @@
 import Foundation
 
 public final class ConfigurationStore: Sendable {
+    // HOSTSWRIGHT_CONFIG_DIR lets a development copy run against a separate configuration, e.g. for screenshots.
     public static var defaultDirectory: URL {
-        FileManager.default
+        if let override = ProcessInfo.processInfo.environment["HOSTSWRIGHT_CONFIG_DIR"], !override.isEmpty {
+            return URL(fileURLWithPath: override, isDirectory: true)
+        }
+        return FileManager.default
             .urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("Hostswright", isDirectory: true)
     }

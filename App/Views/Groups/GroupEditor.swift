@@ -21,20 +21,17 @@ struct GroupEditor: View {
                 Toggle("Active", isOn: binding(\.isEnabled))
                     .toggleStyle(.switch)
             }
-            TextEditor(text: binding(\.content))
-                .font(.system(.body, design: .monospaced))
-                .autocorrectionDisabled()
-                .scrollContentBackground(.hidden)
-                .padding(8)
+            HostsTextEditor(text: binding(\.content))
                 .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(.quaternary))
                 .overlay(alignment: .topLeading) {
                     if group.content.isEmpty {
                         Text("127.0.0.1 dev.example.com")
                             .font(.system(.body, design: .monospaced))
                             .foregroundStyle(.tertiary)
-                            .padding(.horizontal, 13)
-                            .padding(.vertical, 8)
+                            .padding(.leading, 46)
+                            .padding(.top, 8)
                             .allowsHitTesting(false)
                     }
                 }
