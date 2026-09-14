@@ -1,6 +1,8 @@
+import HostsCore
 import SwiftUI
 
-struct SystemHostsView: View {
+/// The live /etc/hosts, with the sync state and the import offer for lines left by other tools.
+struct HostsFileView: View {
     @Environment(AppModel.self) private var model
     @Binding var selection: SidebarSelection?
 
@@ -8,9 +10,9 @@ struct SystemHostsView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("System")
+                    Text("Hosts File")
                         .font(.title2.weight(.semibold))
-                    Text("Everything in /etc/hosts outside Hostswright's section. These lines are never changed.")
+                    Text("Active groups are written between Hostswright's markers in /etc/hosts. Everything outside the markers is left exactly as it is.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
@@ -19,8 +21,19 @@ struct SystemHostsView: View {
                     ImportButton(selection: $selection)
                 }
             }
+            HStack(spacing: 8) {
+                SyncStatusIndicator()
+                if model.sync.needsAttention {
+                    Button("Re-apply") { model.sync.reapply() }
+                        .controlSize(.small)
+                }
+                Spacer()
+                Text(HostsFile.path)
+                    .font(.caption.monospaced())
+                    .foregroundStyle(.secondary)
+            }
             ScrollView {
-                Text(systemText)
+                Text(model.hostsFile.file.rendered())
                     .font(.system(.body, design: .monospaced))
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -30,10 +43,6 @@ struct SystemHostsView: View {
             .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(.quaternary))
         }
         .padding(20)
-    }
-
-    private var systemText: String {
-        (model.hostsFile.file.before + model.hostsFile.file.after).joined(separator: "\n")
     }
 }
 

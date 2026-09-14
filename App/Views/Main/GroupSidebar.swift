@@ -19,11 +19,13 @@ struct GroupSidebar: View {
                 }
                 .onMove { model.moveGroups(from: $0, to: $1) }
             }
-            Section {
-                Label("System", systemImage: "lock")
-                    .tag(SidebarSelection.system)
-                LocalDNSSidebarRow()
+            Section("Resolver") {
+                ResolverRow(title: "Hosts File", symbolName: OverrideMode.hostsFile.symbolName, subtitle: hostsFileSubtitle, isActive: model.helper.isEnabled)
+                    .tag(SidebarSelection.hostsFile)
+                ResolverRow(title: "Local DNS", symbolName: OverrideMode.localDNS.symbolName, subtitle: localDNSSubtitle, isActive: model.dns.isEnabled)
                     .tag(SidebarSelection.localDNS)
+                ResolverRow(title: "Query Log", symbolName: "list.bullet.rectangle", subtitle: queryLogSubtitle, isActive: model.dns.isEnabled)
+                    .tag(SidebarSelection.queryLog)
             }
         }
         .listStyle(.sidebar)
@@ -64,6 +66,24 @@ struct GroupSidebar: View {
     private var pendingDeletionName: String {
         pendingDeletion.flatMap { model.configuration.group(id: $0)?.name } ?? ""
     }
+
+    private var hostsFileSubtitle: String {
+        guard model.helper.isEnabled else { return "Not set up" }
+        let count = model.configuration.enabledGroups.count
+        let groups = count == 1 ? "1 group applied" : "\(count) groups applied"
+        return model.sync.state == .synced ? groups : model.sync.state.shortSummary
+    }
+
+    private var localDNSSubtitle: String {
+        guard model.dns.isEnabled else { return "Off" }
+        return model.dns.status.isRunning ? "Resolving for this Mac" : (model.dns.status.listenError == nil ? "Starting…" : "Could not start")
+    }
+
+    private var queryLogSubtitle: String {
+        guard model.dns.isEnabled else { return "Needs Local DNS" }
+        let count = model.dns.status.queries
+        return count == 1 ? "1 query" : "\(count) queries"
+    }
 }
 
 private struct GroupRow: View {
@@ -80,6 +100,29 @@ private struct GroupRow: View {
                 Text(group.name.isEmpty ? "Untitled" : group.name)
                     .lineLimit(1)
                 Text(Formatters.entries(group.entryCount))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.vertical, 2)
+    }
+}
+
+private struct ResolverRow: View {
+    let title: String
+    let symbolName: String
+    let subtitle: String
+    let isActive: Bool
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: symbolName)
+                .font(.title3)
+                .frame(width: 24)
+                .foregroundStyle(isActive ? Color.accentColor : .secondary)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title)
+                Text(subtitle)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

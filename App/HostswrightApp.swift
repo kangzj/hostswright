@@ -10,7 +10,7 @@ struct HostswrightApp: App {
             MainWindow()
                 .environment(appDelegate.model)
         }
-        .defaultSize(width: 800, height: 520)
+        .defaultSize(width: 860, height: 620)
         .defaultLaunchBehavior(appDelegate.model.opensWindowAtLaunch ? .presented : .suppressed)
         .restorationBehavior(.disabled)
         .commands { AppCommands(model: appDelegate.model) }

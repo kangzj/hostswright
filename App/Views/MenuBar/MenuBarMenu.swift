@@ -8,12 +8,12 @@ struct MenuBarMenu: View {
     var body: some View {
         if model.helper.isEnabled {
             groupToggles
+            Divider()
+            modePicker
         } else {
             Button("Set Up Hostswright…") { openMainWindow() }
         }
         Divider()
-        Toggle("Local DNS", isOn: Binding(get: { model.dns.isEnabled }, set: { model.dns.setEnabled($0) }))
-            .disabled(!model.helper.isEnabled)
         Button("Flush DNS Cache") { Task { await model.flushDNSCache() } }
             .disabled(!model.helper.isEnabled)
         Button("Open Hostswright…") { openMainWindow() }
@@ -47,6 +47,16 @@ struct MenuBarMenu: View {
             Button("Turn All Off") { model.disableAll() }
                 .disabled(!model.hasActiveGroups)
         }
+    }
+
+    private var modePicker: some View {
+        @Bindable var dns = model.dns
+        return Picker("Mode", selection: $dns.mode) {
+            ForEach(OverrideMode.allCases, id: \.self) { mode in
+                Text(mode.title).tag(mode)
+            }
+        }
+        .pickerStyle(.inline)
     }
 
     private func openMainWindow() {

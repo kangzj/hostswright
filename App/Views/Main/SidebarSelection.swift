@@ -2,6 +2,7 @@ import Foundation
 
 enum SidebarSelection: Hashable {
     case group(UUID)
-    case system
+    case hostsFile
     case localDNS
+    case queryLog
 }

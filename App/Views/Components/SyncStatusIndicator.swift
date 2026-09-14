@@ -13,20 +13,27 @@ struct SyncStatusIndicator: View {
                 Image(systemName: model.helper.isEnabled ? state.symbolName : "circle.dashed")
                     .foregroundStyle(model.helper.isEnabled ? state.tint : .secondary)
             }
-            Text(shortSummary)
+            Text(summary)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
         .help(state.summary)
     }
 
-    private var shortSummary: String {
+    private var summary: String {
         guard model.helper.isEnabled else { return "Not set up" }
-        switch model.sync.state {
-        case .synced: return "In sync"
-        case .pending, .applying: return "Applying"
-        case .outOfSync: return "Out of sync"
-        case .failed: return "Failed"
+        let mode = model.dns.mode.title
+        return model.sync.state == .synced ? "\(mode) · in sync" : model.sync.state.shortSummary
+    }
+}
+
+extension HostsSync.State {
+    var shortSummary: String {
+        switch self {
+        case .synced: "In sync"
+        case .pending, .applying: "Applying…"
+        case .outOfSync: "Out of sync"
+        case .failed: "Failed"
         }
     }
 }

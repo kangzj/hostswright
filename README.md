@@ -16,6 +16,10 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license"></a>
 </p>
 
+<p align="center">
+  <img src="docs/screenshots/groups.png" width="760" alt="Hostswright main window with a list of hosts groups and the MC group selected">
+</p>
+
 ## Why Hostswright
 
 Pointing a hostname at a different machine is still the fastest way to test a staging server, a local build, or a tunnel.
@@ -32,11 +36,22 @@ Hostswright keeps those entries in named groups and turns them into checkboxes i
 
 ## Features
 
+### Two modes
+| Mode | What it does |
+|---|---|
+| **Hosts File** | Active groups are written into `/etc/hosts`. Most apps and command line tools follow it. The default. |
+| **Local DNS** | The hosts file is still written, and Hostswright also becomes the Mac's DNS resolver: every app sees the overrides, and repeat lookups come from a local cache. |
+
+Switch between them with the control in the toolbar or from the menu bar.
+
 ### Menu bar
 Click the icon to see every group with a checkmark next to the active ones.
-Tick and untick as many as you like.
+Tick and untick as many as you like, pick the mode, and flush the DNS cache without opening the window.
 The icon fills in while any group is active, so you can tell at a glance whether overrides are live.
-Turn All Off, Flush DNS Cache, and Open Hostswright live in the same menu.
+
+<p align="center">
+  <img src="docs/screenshots/menu-bar.png" width="220" alt="Menu bar dropdown listing groups, the mode picker, and actions">
+</p>
 
 ### Groups
 The main window lists your groups in a sidebar with a switch on each row.
@@ -53,12 +68,24 @@ If you are coming from SwitchHosts or a hand-maintained file, the System view sh
 Each blank-line-separated block becomes a group, named after the shared domain or the comment above it, and the adopted lines are removed from the system section so nothing is applied twice.
 
 ### Local DNS mode
-One switch, in the menu bar or on the Local DNS page, makes Hostswright this Mac's resolver.
+Local DNS mode makes Hostswright this Mac's resolver.
 It answers every name in `/etc/hosts` itself, caches the answers to everything else within the lifetime bounds you choose, and forwards the rest to the DNS servers your network hands out or to a custom list.
 Apps that resolve outside the hosts file, Safari included, then see the same overrides.
-Forwarding rules send a domain and its subdomains to specific servers, handy for a VPN's internal DNS, and a live query log shows whether each lookup came from hosts, the cache, or upstream.
+Forwarding rules send a domain and its subdomains to specific servers, handy for a VPN's internal DNS.
 The mode keeps running after you quit the app and after a reboot, and turning it off puts the previous DNS settings back.
 iCloud Private Relay resolves Safari traffic through Apple's relay, so overrides do not reach Safari while Private Relay is on.
+
+<p align="center">
+  <img src="docs/screenshots/local-dns.png" width="760" alt="Local DNS page showing resolver status, upstream servers, and cache settings">
+</p>
+
+### Query log
+While Local DNS is on, the Query Log page lists the most recent lookups with the answer's source: your groups, the cache, an upstream server, or a failure.
+Filter by name to check what a particular app is resolving.
+
+<p align="center">
+  <img src="docs/screenshots/query-log.png" width="760" alt="Query Log page listing recent lookups and where each answer came from">
+</p>
 
 ## Migrating from SwitchHosts
 

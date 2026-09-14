@@ -56,8 +56,8 @@ Hostswright.app                      XPC                 HostswrightHelper (root
 ### 3.3 App
 
 - `LocalDNSController` owns `DNSSettings` (stored in `dns.json` next to the groups file); any change is pushed to the helper (debounced) through `applyDNSSettings`.
-- Menu bar: a "Local DNS" toggle above the Flush item.
-- Sidebar: a "Local DNS" page with the main switch, a status card (listening, upstreams, cache size, hit rate), upstream picker with a custom server list, TTL bounds, forwarding rules table, Clear Cache, and the query log.
+- The mode is one concept, `OverrideMode` (Hosts File or Local DNS), picked with a segmented control in the toolbar and an inline picker in the menu bar.
+- Sidebar: a Resolver section with Hosts File (the live file, sync state, import), Local DNS (a grouped form: mode row, status, upstream, cache bounds, forwarding rules, log switch), and Query Log (a filterable table with a legend).
 - Status is polled every two seconds while the page is open or the mode is on.
 
 ## 4. Error handling
