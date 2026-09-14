@@ -5,7 +5,7 @@
 <h1 align="center">Hostswright</h1>
 
 <p align="center">
-  <strong>Switch groups of <code>/etc/hosts</code> entries on and off from the menu bar.</strong><br>
+  <strong>Switch groups of <code>/etc/hosts</code> entries on and off from the menu bar, or let Hostswright be your Mac's DNS resolver so the overrides reach every app.</strong><br>
   One approval when you first launch it, then every change lands instantly, with no password prompts.
 </p>
 
@@ -26,7 +26,9 @@ Pointing a hostname at a different machine is still the fastest way to test a st
 Doing it by hand means `sudo`, a text editor, remembering to flush the DNS cache, and undoing it all afterwards.
 
 Hostswright keeps those entries in named groups and turns them into checkboxes in your menu bar.
+Then it goes one step further than any hosts file manager can.
 
+- **Local DNS mode: overrides that reach every app.** The hosts file is only honoured by apps that read it, and Safari and a growing number of tools do not. Flip one switch and Hostswright becomes the Mac's DNS resolver, answering your groups directly, forwarding everything else to your network's servers, and caching the answers so repeat lookups are instant.
 - **Groups, not files.** Each group is a few lines of hosts entries with a name. Turn on one, several, or none.
 - **Instant.** The moment you tick a group, `/etc/hosts` is rewritten and the DNS cache is flushed, so browsers and command line tools see it right away.
 - **One-time permission.** A tiny root helper, approved once in System Settings, does the writing. You are never asked for a password again.
@@ -43,6 +45,19 @@ Hostswright keeps those entries in named groups and turns them into checkboxes i
 | **Local DNS** | The hosts file is still written, and Hostswright also becomes the Mac's DNS resolver: every app sees the overrides, and repeat lookups come from a local cache. |
 
 Switch between them with the control in the toolbar or from the menu bar.
+
+### Local DNS mode
+This is the feature most hosts managers do not have.
+Local DNS mode makes Hostswright this Mac's resolver.
+It answers every name in `/etc/hosts` itself, caches the answers to everything else within the lifetime bounds you choose, and forwards the rest to the DNS servers your network hands out or to a custom list.
+Apps that resolve outside the hosts file, Safari included, then see the same overrides.
+Forwarding rules send a domain and its subdomains to specific servers, handy for a VPN's internal DNS.
+The mode keeps running after you quit the app and after a reboot, and turning it off puts the previous DNS settings back.
+iCloud Private Relay resolves Safari traffic through Apple's relay, so overrides do not reach Safari while Private Relay is on.
+
+<p align="center">
+  <img src="docs/screenshots/local-dns.png" width="760" alt="Local DNS page showing resolver status, upstream servers, and cache settings">
+</p>
 
 ### Menu bar
 Click the icon to see every group with a checkmark next to the active ones.
@@ -66,18 +81,6 @@ If another tool or a manual edit changes its section, the window and the menu sh
 ### Import from an existing setup
 If you are coming from SwitchHosts or a hand-maintained file, the System view shows the custom lines it found and offers to import them.
 Each blank-line-separated block becomes a group, named after the shared domain or the comment above it, and the adopted lines are removed from the system section so nothing is applied twice.
-
-### Local DNS mode
-Local DNS mode makes Hostswright this Mac's resolver.
-It answers every name in `/etc/hosts` itself, caches the answers to everything else within the lifetime bounds you choose, and forwards the rest to the DNS servers your network hands out or to a custom list.
-Apps that resolve outside the hosts file, Safari included, then see the same overrides.
-Forwarding rules send a domain and its subdomains to specific servers, handy for a VPN's internal DNS.
-The mode keeps running after you quit the app and after a reboot, and turning it off puts the previous DNS settings back.
-iCloud Private Relay resolves Safari traffic through Apple's relay, so overrides do not reach Safari while Private Relay is on.
-
-<p align="center">
-  <img src="docs/screenshots/local-dns.png" width="760" alt="Local DNS page showing resolver status, upstream servers, and cache settings">
-</p>
 
 ### Query log
 While Local DNS is on, the Query Log page lists the most recent lookups with the answer's source: your groups, the cache, an upstream server, or a failure.
