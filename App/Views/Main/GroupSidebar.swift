@@ -7,45 +7,42 @@ struct GroupSidebar: View {
     @State private var pendingDeletion: UUID?
 
     var body: some View {
-        List(selection: $selection) {
-            Section("Groups") {
-                ForEach(model.configuration.groups) { group in
-                    GroupRow(group: group)
-                        .tag(SidebarSelection.group(group.id))
-                        .contextMenu {
-                            Button(group.isEnabled ? "Turn Off" : "Turn On") { model.setEnabled(!group.isEnabled, id: group.id) }
-                            Button("Delete…", role: .destructive) { pendingDeletion = group.id }
-                        }
-                }
-                .onMove { model.moveGroups(from: $0, to: $1) }
-            }
-            Section("Resolver") {
-                ResolverRow(title: "Hosts File", symbolName: OverrideMode.hostsFile.symbolName, subtitle: hostsFileSubtitle, isActive: model.helper.isEnabled)
-                    .tag(SidebarSelection.hostsFile)
-                ResolverRow(title: "Local DNS", symbolName: OverrideMode.localDNS.symbolName, subtitle: localDNSSubtitle, isActive: model.dns.isEnabled)
-                    .tag(SidebarSelection.localDNS)
-                ResolverRow(title: "Query Log", symbolName: "list.bullet.rectangle", subtitle: queryLogSubtitle, isActive: model.dns.isEnabled)
-                    .tag(SidebarSelection.queryLog)
-            }
-        }
-        .listStyle(.sidebar)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            VStack(spacing: 0) {
-                Divider()
-                HStack {
-                    Button {
-                        selection = .group(model.addGroup())
-                    } label: {
-                        Label("New Group", systemImage: "plus")
+        VStack(spacing: 0) {
+            List(selection: $selection) {
+                Section("Groups") {
+                    ForEach(model.configuration.groups) { group in
+                        GroupRow(group: group)
+                            .tag(SidebarSelection.group(group.id))
+                            .contextMenu {
+                                Button(group.isEnabled ? "Turn Off" : "Turn On") { model.setEnabled(!group.isEnabled, id: group.id) }
+                                Button("Delete…", role: .destructive) { pendingDeletion = group.id }
+                            }
                     }
-                    .buttonStyle(.borderless)
-                    Spacer()
-                    SyncStatusIndicator()
+                    .onMove { model.moveGroups(from: $0, to: $1) }
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
+                Section("Resolver") {
+                    ResolverRow(title: "Hosts File", symbolName: OverrideMode.hostsFile.symbolName, subtitle: hostsFileSubtitle, isActive: model.helper.isEnabled)
+                        .tag(SidebarSelection.hostsFile)
+                    ResolverRow(title: "Local DNS", symbolName: OverrideMode.localDNS.symbolName, subtitle: localDNSSubtitle, isActive: model.dns.isEnabled)
+                        .tag(SidebarSelection.localDNS)
+                    ResolverRow(title: "Query Log", symbolName: "list.bullet.rectangle", subtitle: queryLogSubtitle, isActive: model.dns.isEnabled)
+                        .tag(SidebarSelection.queryLog)
+                }
             }
-            .background(.bar)
+            .listStyle(.sidebar)
+            Divider()
+            HStack {
+                Button {
+                    selection = .group(model.addGroup())
+                } label: {
+                    Label("New Group", systemImage: "plus")
+                }
+                .buttonStyle(.borderless)
+                Spacer()
+                SyncStatusIndicator()
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
         }
         .onDeleteCommand {
             if case .group(let id) = selection { pendingDeletion = id }

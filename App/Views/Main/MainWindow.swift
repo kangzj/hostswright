@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct MainWindow: View {
@@ -5,11 +6,14 @@ struct MainWindow: View {
 
     @Environment(AppModel.self) private var model
     @State private var selection: SidebarSelection?
+    @State private var columnVisibility = NavigationSplitViewVisibility.all
+    @State private var window: NSWindow?
 
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             GroupSidebar(selection: $selection)
                 .navigationSplitViewColumnWidth(min: 220, ideal: 250, max: 320)
+                .toolbar(removing: .sidebarToggle)
         } detail: {
             VStack(spacing: 0) {
                 StatusBanner()
@@ -20,6 +24,14 @@ struct MainWindow: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color(nsColor: .windowBackgroundColor).ignoresSafeArea())
             .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button {
+                        toggleSidebar()
+                    } label: {
+                        Label("Toggle Sidebar", systemImage: "sidebar.leading")
+                    }
+                    .keyboardShortcut("s", modifiers: [.control, .command])
+                }
                 ToolbarItem(placement: .primaryAction) {
                     ModePicker()
                 }
@@ -27,9 +39,25 @@ struct MainWindow: View {
         }
         .navigationSplitViewStyle(.balanced)
         .frame(minWidth: 720, minHeight: 460)
+        .background(WindowAccessor { window = $0 })
         .onChange(of: model.configuration.groups.map(\.id), initial: true) { _, ids in
             if case .group(let id) = selection, !ids.contains(id) { selection = nil }
             if selection == nil, let first = ids.first { selection = .group(first) }
+        }
+    }
+
+    // The system toggle animates the split, and on macOS 26 the columns snap mid-animation, so the switch is instant.
+    // Without the animation SwiftUI grows the window by the sidebar's width instead of shrinking the detail; put it back.
+    private func toggleSidebar() {
+        let frame = window?.frame
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
+        }
+        guard let window, let frame else { return }
+        DispatchQueue.main.async {
+            if window.frame != frame { window.setFrame(frame, display: true) }
         }
     }
 
@@ -47,6 +75,20 @@ struct MainWindow: View {
         case nil:
             EmptyStateView(selection: $selection)
         }
+    }
+}
+
+private struct WindowAccessor: NSViewRepresentable {
+    let onWindow: (NSWindow) -> Void
+
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
+        DispatchQueue.main.async { if let window = view.window { onWindow(window) } }
+        return view
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {
+        if let window = nsView.window { onWindow(window) }
     }
 }
 
